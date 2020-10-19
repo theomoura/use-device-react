@@ -35,6 +35,7 @@ const Component = () => {
 ## Breakpoint
 
 You can pass a breakpoint as a parameter. If the innerwidth of the window is minor or equal to the breakpoint, it will be considered a mobile.
+The default mobile breakpoint value is **768**.
 
 ```jsx
 import { useDevice } from "use-device-react";
