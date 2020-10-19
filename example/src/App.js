@@ -1,12 +1,13 @@
-import React from 'react'
-import { useMyHook } from 'use-device-react'
+import React from "react";
+import { useDevice } from "use-device-react";
 
 const App = () => {
-  const example = useMyHook()
+  const { mobile, desktop } = useDevice();
   return (
-    <div>
-      {example}
-    </div>
-  )
-}
-export default App
+    <>
+      <div>mobile: {String(mobile)}</div>
+      <div>desktop: {String(desktop)}</div>
+    </>
+  );
+};
+export default App;

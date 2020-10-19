@@ -1,29 +1,31 @@
-import { useMyHook } from './'
-import { renderHook, act } from "@testing-library/react-hooks";
+import { useDevice } from "./";
+import { renderHook } from "@testing-library/react-hooks";
 
-// mock timer using jest
-jest.useFakeTimers();
+describe("useDevice Hook", () => {
+  it("checks if result is correct if device is a desktop", () => {
+    const { result } = renderHook(() => useDevice());
 
-describe('useMyHook', () => {
-  it('updates every second', () => {
-    const { result } = renderHook(() => useMyHook());
+    expect(result.current.mobile).toBe(false);
+    expect(result.current.desktop).toBe(true);
+  });
 
-    expect(result.current).toBe(0);
+  it("checks if result is correct if device is a mobile", () => {
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event("resize"));
 
-    // Fast-forward 1sec
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
+    const { result } = renderHook(() => useDevice());
 
-    // Check after total 1 sec
-    expect(result.current).toBe(1);
+    expect(result.current.mobile).toBe(true);
+    expect(result.current.desktop).toBe(false);
+  });
 
-    // Fast-forward 1 more sec
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
+  it("checks if result is correct if custom mobile breakpoint is passed", () => {
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event("resize"));
 
-    // Check after total 2 sec
-    expect(result.current).toBe(2);
-  })
-})
+    const { result } = renderHook(() => useDevice(499));
+
+    expect(result.current.mobile).toBe(false);
+    expect(result.current.desktop).toBe(true);
+  });
+});
