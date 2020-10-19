@@ -1,6 +1,6 @@
 {
   "name": "use-device-react",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "use-device-react is a custom hook that can be used to recognize the device viewport based on custom input. The content also updates on screen resize.",
   "author": "theomoura",
   "license": "MIT",

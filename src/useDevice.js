@@ -1,14 +1,26 @@
 import { useState, useLayoutEffect } from "react";
 import { debounce } from "debounce";
 
-const useDevice = (mobileBreakpoint = 768) => {
-  const [mobile, setMobile] = useState(window.innerWidth <= mobileBreakpoint);
-  const [desktop, setDesktop] = useState(window.innerWidth > mobileBreakpoint);
+const useDevice = (breakpoints = { tablet: 700, desktop: 1200 }) => {
+  const [isMobile, setMobile] = useState(
+    window.innerWidth < breakpoints.tablet
+  );
+  const [isTablet, setTablet] = useState(
+    window.innerWidth >= breakpoints.tablet &&
+      window.innerWidth < breakpoints.desktop
+  );
+  const [isDesktop, setDesktop] = useState(
+    window.innerWidth >= breakpoints.desktop
+  );
 
   useLayoutEffect(() => {
     const handleResize = () => {
-      setMobile(window.innerWidth <= mobileBreakpoint);
-      setDesktop(window.innerWidth > mobileBreakpoint);
+      setMobile(window.innerWidth < breakpoints.tablet);
+      setTablet(
+        window.innerWidth >= breakpoints.tablet &&
+          window.innerWidth < breakpoints.desktop
+      );
+      setDesktop(window.innerWidth >= breakpoints.desktop);
     };
 
     const debounced = debounce(handleResize, 100);
@@ -17,11 +29,12 @@ const useDevice = (mobileBreakpoint = 768) => {
     return () => {
       window.removeEventListener("resize", debounced);
     };
-  }, [mobileBreakpoint]);
+  }, [breakpoints]);
 
   return {
-    mobile,
-    desktop,
+    isMobile,
+    isTablet,
+    isDesktop,
   };
 };
 

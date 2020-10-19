@@ -1,1 +1,1 @@
-Example for custom hook ´use-device-react´
+Example for custom hook `use-device-react`
